@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='navbar.css')}}">
+    <title>{% block title%}rawr{% endblock %}</title>
+</head>
+<body>
+    <!--Navbar start-->
+    <!--#region navbar-->
+    <div class="navbar">
+        <nav>
+            <div class="wrapper">
+              <div class=""><a href="/"><img src="{{url_for('static', filename='CarsSoftwareLogo.png')}}" alt="Logo" width="108px" style="padding-top: 20px;"></a></div>
+              <input type="radio" name="slider" id="menu-btn">
+              <input type="radio" name="slider" id="close-btn">
+              <ul class="nav-links">
+                <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
+                <li><a href="/">Home</a></li>
+                <li><a href="/biler">Søk etter biler</a></li>
+                <li><a href="/service">Service</a></li>
+
+              </ul>
+              <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
+            </div>
+          </nav>
+    </div>
+    <br><br><br><br>
+      
+    <!--#endregion-->
+    <!--Navbar end-->
+
+    {% block content %}
+            
+    {% endblock %}
+</body>
+</html>
