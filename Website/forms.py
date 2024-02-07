@@ -8,7 +8,7 @@ from wtforms import (StringField, TextAreaField, IntegerField, BooleanField, Rad
 from .models import Cars, Service
 
 class carForm(FlaskForm):
-    registration = StringField('Skriv restrasjonsnummer her',validators=[InputRequired(), Length(min=0, max=6)])
+    registration = StringField('Skriv registrasjonsnummer her',validators=[InputRequired(), Length(min=0, max=6)])
     submit = SubmitField('Søk')
 
 class loginForm(FlaskForm):

@@ -33,7 +33,7 @@ def create_app():
     app.register_blueprint(view, url_prefix='/')
 
     #Loads in tables
-    from .models import Cars,Base,Service,Clients,Users
+    from .models import Cars,Base,Service,Customer,Users
 
     #Checks if database is created in the ./instance folder. If not, create new database (and creates instance dir, if it doesn't exists).
     CheckForDatabase(app)
