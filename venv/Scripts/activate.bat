@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\rcook\Desktop\PrøveEksamen\Oppgave 3\Oppgave 3\BilButtikk 1\venv
+set VIRTUAL_ENV=C:\Users\rcook\OneDrive\Desktop\Prøve Eksamen\Cars_Software\venv
 
 if not defined PROMPT set PROMPT=$P$G
 
