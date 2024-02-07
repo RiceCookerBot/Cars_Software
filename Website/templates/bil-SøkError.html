@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %} {{reg}} {% endblock %}
+
+{% block content%}
+    <H1>Søk etter biler</H1>
+    <form action="" method="post">
+        {% for field in form %}
+        {% if field.widget.input_type != 'hidden' and field.type != 'SubmitField'%} 
+            {{ field.label }} 
+        {% endif %} <br>
+
+        {{ field }} <br>
+        {% endfor %}
+    </form>
+    <br><br>
+    <h1>Resultat:</h1>
+    <p>Ingen bil med registrasjons number {{reg}} finnes.</p>
+    <p>Dobbel sjekk om du skrev registrasjons nummeret riktig før du sender!</p>
+{% endblock%}

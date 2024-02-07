@@ -7,9 +7,20 @@ from wtforms import (StringField, TextAreaField, IntegerField, BooleanField, Rad
 
 from .models import Cars, Service
 
-class carForm(FlaskForm):
+class carSearchForm(FlaskForm):
     registration = StringField('Skriv registrasjonsnummer her',validators=[InputRequired(), Length(min=0, max=6)])
     submit = SubmitField('Søk')
+
+class registerCarForm(FlaskForm):
+    registration = StringField('Registrasjons nummer', validators=[InputRequired()])
+    brand = StringField('Bil Merke', validators=[InputRequired()])
+    model = StringField('Bil model', validators=[InputRequired()])
+    color = StringField('Bil Farge', validators=[InputRequired()])
+    price = IntegerField('Pris i kr', validators=[InputRequired()])
+    available = BooleanField('tilgjenglig', default=True)
+    sold = BooleanField('Solgt', default=False)
+    owner = StringField('Eieren av Bil', default='Cars Software', validators=[InputRequired()])
+    submit = SubmitField('Registrer Ny-Bil')
 
 class loginForm(FlaskForm):
     username = StringField('Brukernavn', validators=[InputRequired()])
