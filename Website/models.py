@@ -1,6 +1,10 @@
 from sqlalchemy.orm import Mapped, mapped_column, DeclarativeBase
 from sqlalchemy import Integer, String,Date,Time,Float,Boolean
 from . import db
+from datetime import datetime
+
+#Login
+from flask_login import UserMixin
 
 class Base(DeclarativeBase):
     pass
@@ -29,8 +33,20 @@ class Service(db.Model,Base):
     mechanic: Mapped[str] = mapped_column(String, nullable=False)
     customer: Mapped[str] = mapped_column(String, nullable=False)
 
+class Order(db.Model,Base):
+    __tablename__ = 'order'
 
-class Users(db.Model, Base):
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    #Secoundary key
+    registration: Mapped[str] = mapped_column(String)
+    employeeUsr: Mapped[str] = mapped_column(String, nullable=False)
+    order_date: Mapped[str] = mapped_column(Date, nullable=False, default=datetime.utcnow)
+    description: Mapped[str] = mapped_column(String,nullable=False)
+    customerName: Mapped[str] = mapped_column(String, nullable=False)
+    customerPhone: Mapped[str] = mapped_column(String, nullable=False)
+    
+
+class Users(db.Model, Base, UserMixin):
     __tablename__ = 'users'
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)

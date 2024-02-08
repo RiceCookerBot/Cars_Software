@@ -8,11 +8,11 @@ from wtforms import (StringField, TextAreaField, IntegerField, BooleanField, Rad
 from .models import Cars, Service
 
 class carSearchForm(FlaskForm):
-    registration = StringField('Skriv registrasjonsnummer her',validators=[InputRequired(), Length(min=0, max=10)])
+    registration = StringField('Skriv registrasjonsnummer her',validators=[InputRequired(), Length(min=7, max=10)])
     submit = SubmitField('Søk')
 
 class registerCarForm(FlaskForm):
-    registration = StringField('Registrasjons nummer', validators=[InputRequired()])
+    registration = StringField('Registrasjons nummer', validators=[InputRequired(),Length(min=7, max=10)])
     brand = StringField('Bil Merke', validators=[InputRequired()])
     model = StringField('Bil model', validators=[InputRequired()])
     color = StringField('Bil Farge', validators=[InputRequired()])
@@ -22,17 +22,24 @@ class registerCarForm(FlaskForm):
     owner = StringField('Eieren av Bil', default='Cars Software', validators=[InputRequired()])
     submit = SubmitField('Registrer Ny-Bil')
 
+class editCarForm(FlaskForm):
+    price = IntegerField('Pris i kr', validators=[InputRequired()])
+    available = BooleanField('tilgjenglig', default=True)
+    sold = BooleanField('Solgt', default=False)
+    owner = StringField('Eieren av Bil', default='Cars Software', validators=[InputRequired()])
+    submit = SubmitField('Registrer Ny-Bil')
+
 class loginForm(FlaskForm):
     username = StringField('Brukernavn', validators=[InputRequired()])
     password = PasswordField('Passord', validators=[InputRequired()])
+    remember = BooleanField('Husk meg',default=False)
     submit = SubmitField('Login')
 
-class userForm(FlaskForm):
+class newUserForm(FlaskForm):
     username = StringField('Brukernavn', validators=[InputRequired()])
-    epost = StringField('e-post', validators=[InputRequired()])
-    navn = StringField('navn',validators=[InputRequired()])
-    etternavn = StringField('etternavn', validators=[InputRequired()])
-    password = StringField('Passord', validators=[InputRequired()])
+    name = StringField('navn',validators=[InputRequired()])
+    phoneNumber = StringField('Telefonnumber', validators=[InputRequired()])
+    password = PasswordField('Passord', validators=[InputRequired()])
     submit = SubmitField('Login')
 
 class orderForm(FlaskForm):

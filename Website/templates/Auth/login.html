@@ -1,0 +1,17 @@
+{% extends "base.html"%}
+{%block title%}Login{%endblock%}
+{%block content%}
+<div class="">
+    <form action="" method="post">
+        <h2>Login Page</h2>
+        <span> {{form.username.label}} <br> {{form.username}} <br></span>
+        <span>{{form.password.label}} <br> {{form.password}} <br></span>
+        <span>{{form.remember.label}} {{form.remember}} <br><br></span>
+        {{form.submit}}
+    </form> 
+
+    <a href="{{url_for('auth.newUser')}}">
+        <button>Lag ny bruker</button>
+    </a>
+</div>
+{% endblock%}

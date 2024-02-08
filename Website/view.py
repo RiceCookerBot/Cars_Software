@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template,request,url_for,redirect, session
-from Website.models import Cars, Service
-from .forms import carSearchForm,registerCarForm
+from Website.models import Cars
+from .forms import carSearchForm,registerCarForm,editCarForm
 from sqlalchemy.exc import IntegrityError 
-import urllib.parse 
+from wtforms.fields import Label
+from flask_login import login_user, login_required, logout_user, current_user
 
 from . import db
 from  .models import Cars
@@ -14,16 +15,18 @@ view = Blueprint('view',__name__)
 #Lag service Side
 #Lag en registrer order side
 #Lag en manage order side
-#Lag en manage biler, der du kan slette biler og redigere dem
 #Lag flash warings i base.html
+#brukere brude se ordere som de har kontroll av
 
 
 #Links to other sites
 @view.route('/')
+@login_required
 def home():
     return render_template("home.html")
 
 @view.route('/biler',methods=['GET','POST'])
+@login_required
 def biler():
     form = carSearchForm()
     if request.method == 'POST' and form.validate_on_submit():
@@ -34,30 +37,32 @@ def biler():
 
 #Åpner opp for en IDOR vulnerabilty, forgrunn av dårlig auth av request
 #See denne artikkelen for mere informasjon: https://portswigger.net/web-security/access-control/idor
-#Fix Bug: Cant query row with reg variable. !IMPORTANT
-@view.route('/bilerSøk/<reg>',methods=['POST','GET'])
+@view.route('/bilerSøk/<reg>', methods=['POST', 'GET'])
+@login_required
 def bilerSearch(reg):
     form = carSearchForm()
-    #Filter query by variable
+
+    # Filter query by variable
     cars = Cars.query.all()
 
     carRow = None
     for car in cars:
-       print(type(car.registration),type(reg))
-       if car.registration == reg:
+        if car.registration == reg:
             carRow = car
+            break  # Stop searching once found
 
-    #Endre til en flash 
-    if carRow == None:
-        return render_template("bil-SøkError.html",reg=reg,form=form)
-    
     if request.method == 'POST' and form.validate_on_submit():
-        newReg = form.registration.data
-        return redirect(url_for('view.bilerSearch',reg=newReg),code=302)
-    else:
-        return render_template('bil-Søk.html',form=form,car=carRow,reg=reg)
+        new_reg = form.registration.data
+        return redirect(url_for('view.bilerSearch', reg=new_reg))
+
+    # Endre til en flash
+    if carRow is None:
+        return render_template("bil-SøkError.html", reg=reg, form=form)
+
+    return render_template('bil-Søk.html', form=form, car=carRow, reg=reg)
     
 @view.route('/register-bil', methods=['GET','POST'])
+@login_required
 def RegBil():
     form = registerCarForm()
     if request.method == 'POST' and form.validate_on_submit():
@@ -86,7 +91,7 @@ def RegBil():
             #if there is. Return error page
             try:
                 db.session.commit()
-                return url_for("view.home")
+                return redirect(url_for("view.biler"))
             except IntegrityError:
                 print('Somthing went wront, returning error page')
                 db.session.rollback()
@@ -100,16 +105,41 @@ def RegBil():
 #Add a safe guard to deleting an object. f.exp > Flash waring
 #Redirect to last visited site
 @view.route('/del-bil/<reg>')
+@login_required
 def delBil(reg):
     Cars.query.filter_by(registration=reg).delete()
     db.session.commit()
     return redirect(url_for("view.biler"))
 
-@view.route('/edit-car/<reg>')
+@view.route('/edit-car/<reg>',methods=['GET','POST'])
+@login_required
 def editCar(reg):
 
-    form = registerCarForm
-    return 'test'
+    form = editCarForm()
+    carsRow = Cars.query.get(reg)
+    form.price.default = carsRow.price
+    form.available.default = carsRow.available
+    form.sold.default = carsRow.sold
+    form.owner.default = carsRow.owner
+
+    form.submit.label = Label(field_id='name',text='updater verdier')
+    
+    if request.method == 'POST':
+        carsRow.price = form.price.data
+        carsRow.available = form.available.data
+        carsRow.sold = form.sold.data
+        carsRow.owner = form.owner.data
+
+        try:
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            return 'error somthing went wrong'
+        
+        return redirect(url_for('view.biler'))
+    else:
+        form.process()
+        return render_template('edit-car.html',form=form,reg=reg,car=carsRow)
 
 @view.route('/service')
 def service():
@@ -118,21 +148,6 @@ def service():
 @view.route('/order')
 def order():
     return 'order'
-
-@view.route('/login')
-def login():
-    return 'test'
-
-@view.route('/new-user')
-def newUser():
-    return 'test'
-#redirect to homepage
-@view.route('/logout')
-def logout():
-    #Logout user
-    #Create Logout function
-    return redirect(url_for("view.home"))
-
 
 @view.route('/test')
 def test():

@@ -5,6 +5,7 @@ from  sqlalchemy.orm import DeclarativeBase
 from flask_migrate import Migrate
 from os import path
 from datetime import timedelta
+from flask_login import LoginManager
 
 class Base(DeclarativeBase):
   pass
@@ -13,7 +14,7 @@ class Base(DeclarativeBase):
 db = SQLAlchemy(model_class=Base)
 
 #Change this to access other datbases
-DB_NAME = "development.db"
+DB_NAME = "developer.db"
 
 migrate = Migrate()
 
@@ -30,9 +31,13 @@ def create_app():
 
     #Blueprints
     from .view import view
+    from .auth import auth
+    from .service import service
 
     #Get Access routes from blueprints
     app.register_blueprint(view, url_prefix='/')
+    app.register_blueprint(auth, url_prefix='/')
+    app.register_blueprint(service, url_prefix='/')
 
     #Loads in tables
     from .models import Cars,Base,Service,Customer,Users
@@ -42,9 +47,24 @@ def create_app():
 
     #Initializes migrating for the app and database
     migrate = Migrate(app, db)
-   
-    #returns app
+
+
+    #Sets Login Manager
+    login_manager = LoginManager()
+    
+    #Sets blueprint that login_manger looks for when executing functions
+    login_manager.login_view = "auth.login"
+
+    #Initializes the login manager
+    login_manager.init_app(app)
+
+    @login_manager.user_loader
+    def load_user(id):
+            return Users.query.get(int(id))
+    
     return app
+   
+
 
 
 def CheckForDatabase(app):

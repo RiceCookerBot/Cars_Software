@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %} Ny Bil {% endblock %}
+{% block content %}
+    <form action="" method="post" action="{{ url_for('view.bilerSearch', reg=reg) }}">
+        <h1>Bil information</h1>
+        <span>Registrasjons nummer: {{ reg }}</span><br>
+        <span>Merke: {{ car.brand }}</span><br>
+        <span>Model: {{ car.model }}</span><br>
+        <span>Farge: {{ car.color }}</span><br><br>
+        
+        {% for field in form %}
+            {% if field.widget.input_type != 'hidden' and field.type != 'SubmitField'%} 
+                {{ field.label }} 
+            {% endif %} <br>
+
+            {{ field }} <br>
+        {% endfor %}
+    </form>
+
+    <div>
+        <a href="{{url_for('view.biler')}}">
+            <button>Tilbake</button>
+        </a>
+    </div>
+{% endblock %}
