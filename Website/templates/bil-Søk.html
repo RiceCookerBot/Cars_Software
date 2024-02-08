@@ -21,7 +21,7 @@
         <span>Tilgjenglig: {% if car.available == 1%} Ja {% else %} Nei {% endif %}</span>
         <span>Solgt: {% if car.sold == 1%} Ja {% else %} Nei {% endif %}</span>
 
-        <a href="#">
+        <a href="{{url_for('view.editCar',reg=car.registration)}}">
             <button>Rediger Bil</button>
         </a>
         <a href="{{url_for('view.delBil', reg=car.registration)}}">

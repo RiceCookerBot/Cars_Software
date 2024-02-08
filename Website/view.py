@@ -1,8 +1,8 @@
-from flask import Blueprint, render_template,request,url_for,redirect
+from flask import Blueprint, render_template,request,url_for,redirect, session
 from Website.models import Cars, Service
 from .forms import carSearchForm,registerCarForm
 from sqlalchemy.exc import IntegrityError 
-from sqlalchemy import text
+import urllib.parse 
 
 from . import db
 from  .models import Cars
@@ -35,13 +35,17 @@ def biler():
 #Åpner opp for en IDOR vulnerabilty, forgrunn av dårlig auth av request
 #See denne artikkelen for mere informasjon: https://portswigger.net/web-security/access-control/idor
 #Fix Bug: Cant query row with reg variable. !IMPORTANT
-@view.route('/biler/<str:reg>',methods=['POST','GET'])
+@view.route('/bilerSøk/<reg>',methods=['POST','GET'])
 def bilerSearch(reg):
     form = carSearchForm()
-    
     #Filter query by variable
-    carRow = db.get_or_404(Cars,reg)
-    print(carRow)
+    cars = Cars.query.all()
+
+    carRow = None
+    for car in cars:
+       print(type(car.registration),type(reg))
+       if car.registration == reg:
+            carRow = car
 
     #Endre til en flash 
     if carRow == None:
@@ -49,10 +53,9 @@ def bilerSearch(reg):
     
     if request.method == 'POST' and form.validate_on_submit():
         newReg = form.registration.data
-        #Change to render template, that displays "Ingen bil med registrasjons number <reg> finnes"
-        return render_template('bil-Søk.html',car=carRow,reg=newReg)
+        return redirect(url_for('view.bilerSearch',reg=newReg),code=302)
     else:
-        return render_template('bil-Søk.html',car=carRow, reg=reg,form=form)
+        return render_template('bil-Søk.html',form=form,car=carRow,reg=reg)
     
 @view.route('/register-bil', methods=['GET','POST'])
 def RegBil():
@@ -133,7 +136,11 @@ def logout():
 
 @view.route('/test')
 def test():
-    reg = 'AS45901'
-    car = db.session.execute(db.select(Cars).filter_by(registration=reg)).scalar_one()
-    print(car.brand)
+    cars = Cars.query.all()
+    carRow = None
+    for car in cars:
+        if car.registration == 'AS45901':
+            carRow = car
+    
+    print(carRow)
     return 'sex?'

@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from  sqlalchemy.orm import DeclarativeBase
 from flask_migrate import Migrate
 from os import path
+from datetime import timedelta
 
 class Base(DeclarativeBase):
   pass
@@ -22,6 +23,7 @@ def create_app():
     #Configs
     app.config['SECRET_KEY'] = 'BLEAH'
     app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_NAME}"
+    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=5)
 
     #Initialize db flask link
     db.init_app(app)
