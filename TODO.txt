@@ -1,7 +1,0 @@
-#Lag en error Side
-#Lag en manage order side
-#Lag flash warings i base.html
-
-#Fixs migrations
-#Fix potensialle redirects
-#CSS for alle pages
