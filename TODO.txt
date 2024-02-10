@@ -1,11 +1,7 @@
 #Lag en error Side
-#Lag service Side
-#Lag en registrer order side
 #Lag en manage order side
 #Lag flash warings i base.html
-#brukere brude se ordere som de har kontroll av
 
 #Fixs migrations
 #Fix potensialle redirects
-#lag tilbake knapp for html sider, reg-car
 #CSS for alle pages

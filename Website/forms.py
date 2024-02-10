@@ -3,8 +3,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from sqlalchemy import Integer
 from wtforms.validators import InputRequired, Length,EqualTo,ValidationError,DataRequired
-from wtforms import (StringField, TextAreaField, IntegerField, BooleanField, RadioField, SubmitField, PasswordField, SelectField)
-
+from wtforms import (StringField, TextAreaField, IntegerField, BooleanField, RadioField, SubmitField, PasswordField, SelectField,DateField)
 from .models import Cars, Service
 
 class carSearchForm(FlaskForm):
@@ -40,12 +39,16 @@ class newUserForm(FlaskForm):
     name = StringField('navn',validators=[InputRequired()])
     phoneNumber = StringField('Telefonnumber', validators=[InputRequired()])
     password = PasswordField('Passord', validators=[InputRequired()])
-    submit = SubmitField('Login')
+    submit = SubmitField('Registrer ny bruker')
 
 class orderForm(FlaskForm):
-    serviceType = SelectField('Service', choices=[('Bil reparasjon','kontroll','problem søking')])
-    clientName = StringField('Kunde Navn', validators=[InputRequired()])
-    telephoneNumber = StringField('Kunde Telefon nummer', validators=[InputRequired()])
-    description = StringField('Beskrivelse av service', validators=[InputRequired()])
-    description = StringField('Beskrivelse av service', validators=[InputRequired()])
+    reg = SelectField('Registrasjons nummer', validators=[InputRequired()])
+    customerName = StringField('Kunde navn', validators=[InputRequired()])
+    customerPhone = StringField('Kunde tlf', validators=[InputRequired()])
+    description = TextAreaField('beskrivelse av problem', validators=[InputRequired()])
     submit = SubmitField('Send')
+
+class confirmOrderForm(FlaskForm):
+    mecanic = StringField('Mekaniker navn', validators=[InputRequired()])
+    serviceDate = DateField('Service dato')
+    submit = SubmitField('Bekreft order')

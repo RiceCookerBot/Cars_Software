@@ -1,0 +1,68 @@
+/* flash.css */
+
+.flash-container {
+    position: fixed;
+    top: 50px; /* Adjust this value to move the flash container down */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    max-width: 80%;
+    z-index: 1000;
+}
+
+.flash-message {
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #fff;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    animation: fadeOut 5s ease-in-out forwards; /* Explicitly set the duration to 3 seconds */
+}
+
+/* Example styles for different message types */
+
+.flash-success {
+    background-color: #4CAF50;
+}
+
+.flash-error {
+    background-color: #f44336;
+}
+
+.flash-warning {
+    background-color: #ff9800;
+}
+
+.flash-info {
+    background-color: #2196F3;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        background-color: #4CAF50; /* Preserve the initial background color */
+    }
+    100% {
+        opacity: 0;
+        background-color: #4CAF50; /* Set a fixed color for fade-out */
+    }
+}
+
+/* Additional styles based on message type */
+.flash-success.fadeOut {
+    background-color: #4CAF50;
+}
+
+.flash-error.fadeOut {
+    background-color: #f44336;
+}
+
+.flash-warning.fadeOut {
+    background-color: #ff9800;
+}
+
+.flash-info.fadeOut {
+    background-color: #2196F3;
+}

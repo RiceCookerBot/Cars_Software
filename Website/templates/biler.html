@@ -1,36 +1,39 @@
 {% extends "base.html" %}
 {% block title %} Biler {% endblock %}
-
+{%block css %} <link rel="stylesheet" href="{{url_for('static',filename='car.css')}}"> {%endblock%}
 {% block content %}
 
-<H1>Søk etter biler</H1>
-<form action="" method="post">
-    {% for field in form %}
-    {% if field.widget.input_type != 'hidden' and field.type != 'SubmitField'%} 
-        {{ field.label }} 
-    {% endif %} <br>
+<div id="search-container">
+    <h1>Søk etter biler</h1>
+    <form action="" method="post">
+        {% for field in form %}
+            {% if field.widget.input_type != 'hidden' and field.type != 'SubmitField'%} 
+                {{ field.label }} <br>
+            {% endif %}
+            {{ field }} <br>
+        {% endfor %}
+    </form>
 
-    {{ field }} <br>
-    {% endfor %}
-</form>
-<br><br>
-<h1>Alle biler</h1>
-{% set Cars = Cars.query.all()%}
-{% for car in Cars %}
-    <div>
-        <span>Registrasjons Nummer: {{car.registration}}</span>
-        <span>Merke: {{car.brand}}</span>
-        <span>Model: {{car.model}}</span>
-        <span>Tilgjenglig: {% if car.available == 1%} Ja {% else %} Nei {% endif %}</span>
-        <span>Solgt: {% if car.sold == 1%} Ja {% else %} Nei {% endif %}</span>
-
-        <a href="{{url_for('view.editCar',reg=car.registration)}}">
-            <button>Rediger Bil</button>
-        </a>
-        <a href="{{url_for('view.delBil', reg=car.registration)}}">
-            <button>Slett Bil</button>
-        </a>
+    <h1>Alle biler</h1>
+    <div id="car-list-container">
+        {% set Cars = Cars.query.all() %}
+        {% for car in Cars %}
+            <div class="car-details">
+                <span>Registrasjons Nummer: {{car.registration}}</span>
+                <span>Merke: {{car.brand}}</span>
+                <span>Model: {{car.model}}</span>
+                <span>Tilgjenglig: {% if car.available == 1%} Ja {% else %} Nei {% endif %}</span>
+                <span>Solgt: {% if car.sold == 1%} Ja {% else %} Nei {% endif %}</span>
+                <a href="{{url_for('view.editCar',reg=car.registration)}}">
+                    <button>Rediger Bil</button>
+                </a>
+                <a href="{{url_for('view.delBil', reg=car.registration)}}">
+                    <button>Slett Bil</button>
+                </a>
+            </div>
+        {% endfor %}
     </div>
-{% endfor %}
+</div>
+
 <br><br>
 {% endblock %}

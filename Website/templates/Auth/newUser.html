@@ -1,20 +1,24 @@
 {% extends "base.html" %}
+{% block css %} <link rel="stylesheet" href="{{url_for('static',filename='newUser.css')}}"> {% endblock %}
 {% block title %} Ny Bruker{% endblock %}
 {% block content %}
-<form action="" method="post">
-    <h2>Sign up</h2><br>
-    {% for field in form %}
-        {% if field.widget.input_type != 'hidden' and field.type != 'SubmitField'%} 
-            {{ field.label }} 
-        {% endif %} <br>
 
-        {{ field}} <br>
-    {% endfor %}
-</form>
-
-<div>
-    <a href="{{url_for('auth.login')}}">
-        <button>Tilbake</button>
-    </a>
+<div id="new-user-container">
+    <form action="" method="post">
+        <h2>Sign up</h2><br>
+        {% for field in form %}
+            {% if field.widget.input_type != 'hidden' and field.type != 'SubmitField'%} 
+                {{ field.label }} 
+            {% endif %} <br>
+    
+            {{ field}} <br>
+        {% endfor %}
+    </form>
+    <div id="tilbake-btn">
+        <a href="{{url_for('auth.login')}}">
+            <button>Tilbake</button>
+        </a>
+    </div>    
 </div>
+
 {% endblock %}

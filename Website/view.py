@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template,request,url_for,redirect, session
+from flask import Blueprint, render_template,request,url_for,redirect, session,flash
 from Website.models import Cars
 from .forms import carSearchForm,registerCarForm,editCarForm
 from sqlalchemy.exc import IntegrityError 
@@ -151,11 +151,5 @@ def order():
 
 @view.route('/test')
 def test():
-    cars = Cars.query.all()
-    carRow = None
-    for car in cars:
-        if car.registration == 'AS45901':
-            carRow = car
-    
-    print(carRow)
-    return 'sex?'
+    flash('testT')
+    return render_template('test.html')

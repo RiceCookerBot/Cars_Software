@@ -1,0 +1,107 @@
+/* Style for the New User page */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+#new-user-container {
+    width: 50%;
+    margin: auto;
+    overflow: hidden;
+    position: relative; /* Ensure relative positioning for absolute positioning of Tilbake button */
+}
+
+form {
+    background: #fff;
+    padding: 30px;
+    margin-top: 50px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px 0px #000;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+span {
+    display: block;
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    margin-bottom: 20px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+
+input[type="submit"] {
+    background-color: #4caf50;
+    color: white;
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+}
+
+button {
+    background-color: #008CBA;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+button:hover,
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* Responsive design for smaller screens */
+@media screen and (max-width: 600px) {
+    form {
+        width: 80%;
+    }
+}
+
+/* Style for Tilbake button */
+#tilbake-btn {
+    position: absolute;
+    bottom: 20px;
+    left: 20px; /* Adjusted to be on the left side */
+}
+
+#tilbake-btn a {
+    text-decoration: none;
+}
+
+#tilbake-btn button {
+    background-color: #008CBA;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+#tilbake-btn button:hover {
+    background-color: #45a049;
+}

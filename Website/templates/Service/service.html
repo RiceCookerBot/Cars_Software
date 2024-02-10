@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %} Service {% endblock %}
+
+{% block content %}
+<div>
+    <h1>Registrerte Ordere:</h1>
+    {% set orders = Order.query.all()%}
+    {% for order in orders %}
+    <div>
+
+        <span>Order ID: {{order.id}}</span>
+        <span>Publiseringdato: {{order.order_date}}</span>
+        <span>publisert av: {{order.employeeUsr}}</span>
+        <span>Registrasjonsnummer: {{order.registration}}</span>
+        <span>Problem beskrivelse: {{order.description}}</span>
+        <span>Kunde navn: {{order.customerName}}</span>
+        <span>Kunde telefonnummer: {{order.customerPhone}}</span>
+        
+        <a href="{{url_for('service.confirmOrder',orderID=order.id)}}">
+            <button>Bekreft Order</button>
+        </a>
+        <a href="{{url_for('service.delOrder',id=order.id)}}">
+            <button>Slett order</button>
+        </a>
+    </div>
+    {% endfor %}
+
+    <a href="{{url_for('service.NyOrder')}}">
+        <button>Ny order</button>
+    </a>
+
+    <h1>Registerte Servicer:</h1>
+    <div>
+        {% set services = Service.query.all()%}
+        {% for service in services %}
+            <div>
+                <span>Service ID: {{service.id}}</span>
+                <span>Registrasjon nummer: {{service.registration}}</span>
+                <span>Planlagt Service Dato: {{service.date}}</span>
+                <span>Kunde navn: {{service.customerName}}</span>
+                <span>Kunde telefonnummer: {{service.customerPhone}}</span>
+                <span>Mekaniker: {{service.mechanic}}</span>
+                <span>Beskrivelse: {{service.description}}</span>
+            </div>
+
+            <a href="{{url_for('service.delService',id=service.id)}}">
+                <button>Slett</button>
+            </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock%}

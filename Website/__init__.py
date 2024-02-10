@@ -24,7 +24,7 @@ def create_app():
     #Configs
     app.config['SECRET_KEY'] = 'BLEAH'
     app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_NAME}"
-    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=5)
+    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=10080)
 
     #Initialize db flask link
     db.init_app(app)
@@ -40,7 +40,7 @@ def create_app():
     app.register_blueprint(service, url_prefix='/')
 
     #Loads in tables
-    from .models import Cars,Base,Service,Customer,Users
+    from .models import Cars,Base,Service,Users
 
     #Checks if database is created in the ./instance folder. If not, create new database (and creates instance dir, if it doesn't exists).
     CheckForDatabase(app)

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template,request,url_for,redirect, session
+from flask import Blueprint, render_template,request,url_for,redirect, session,flash
 from .forms import loginForm, newUserForm
 from sqlalchemy.exc import IntegrityError 
 
@@ -30,7 +30,9 @@ def login():
             return 'error'
         
         if compareHash(password,user.password):
-            login_user(user, remember=remember)
+            session['username'] = username
+            login_user(user, remember=remember) 
+
             return redirect(url_for('view.home'))
         else:
             #Raze error with flash on login page on login failure
@@ -72,6 +74,7 @@ def newUser():
 #redirect to login
 @auth.route('/logout')
 def logout():
+    session.pop('username',None)
     logout_user()
     return redirect(url_for("auth.login"))
 

@@ -31,7 +31,8 @@ class Service(db.Model,Base):
     date: Mapped[str] = mapped_column(Date, nullable=False)
     description: Mapped[str] = mapped_column(String,nullable=False)
     mechanic: Mapped[str] = mapped_column(String, nullable=False)
-    customer: Mapped[str] = mapped_column(String, nullable=False)
+    customerName: Mapped[str] = mapped_column(String, nullable=False)
+    customerPhone: Mapped[str] = mapped_column(String, nullable=False)
 
 class Order(db.Model,Base):
     __tablename__ = 'order'
@@ -56,14 +57,3 @@ class Users(db.Model, Base, UserMixin):
     #Forgein Key for client table
     phoneNumber: Mapped[str] = mapped_column(String, nullable=False)
     password: Mapped[str] = mapped_column(String,nullable=False)
-
-
-#Table for storing client informastion
-class Customer(db.Model, Base):
-    __tablename__ = 'clients'
-    phoneNumber: Mapped[str] = mapped_column(String, nullable=False,primary_key=True)
-    name: Mapped[str] = mapped_column(String,nullable=False)
-    lastname: Mapped[str] = mapped_column(String)
-    epost: Mapped[str] = mapped_column(String)
-    address: Mapped[str] = mapped_column(String)
-    postnumber: Mapped[str] = mapped_column(String)

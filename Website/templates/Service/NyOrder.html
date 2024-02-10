@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %} Ny order {% endblock %}
+
+{% block content %}
+<h1>Ny Order</h1>
+<form action="" method="post">
+    {% for field in form %}
+    {% if field.widget.input_type != 'hidden' and field.type != 'SubmitField'%} 
+        {{ field.label }} 
+    {% endif %} <br>
+
+    {{ field }} <br>
+    {% endfor %}
+</form>
+
+<a href="/service-page">
+    <button>Tilbake</button>
+</a>
+{% endblock %}

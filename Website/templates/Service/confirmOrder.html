@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %} Bekreft Order: {{orderID}} {% endblock %}
+
+{% block content %}
+<div>
+    <form action="" method="post">
+        {% for field in form %}
+        {% if field.widget.input_type != 'hidden' and field.type != 'SubmitField'%} 
+            {{ field.label }} 
+        {% endif %} <br>
+    
+        {{ field }} <br>
+        {% endfor %}
+    </form>
+</div>
+
+{% endblock %}
